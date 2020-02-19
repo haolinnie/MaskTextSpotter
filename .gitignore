@@ -37,4 +37,6 @@ dist/
 
 evaluation
 
+# virtual env
+venv
 
