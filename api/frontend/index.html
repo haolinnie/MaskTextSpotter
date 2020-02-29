@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+	<title>WebRTC: Still photo capture demo</title>
+	<meta charset='utf-8'>
+	<link rel="stylesheet" href="static/main.css" type="text/css" media="all">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="static/capture.js"></script>
+</head>
+<body>
+<div class="contentarea">
+	<h1>
+		MaskTextSpotter
+	</h1>
+
+  <div class="camera">
+    <video id="video">Video stream not available.</video>
+    <button id="startbutton">Take photo</button>
+  </div>
+
+  <canvas id="canvas">
+  </canvas>
+
+  <div class="output">
+    <img id="photo" alt="The screen capture will appear in this box.">
+  </div>
+
+  <form action="http://mask.tigernie.com/api/upload" method="post" id="upload-form">
+    <input type="file" name="imagefile" id="imagefile"/>
+    <input type="submit" />
+  </form>
+
+</div>
+</body>
+</html>
