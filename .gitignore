@@ -39,3 +39,5 @@ evaluation
 # virtual env
 venv
 
+# flask instance
+instance

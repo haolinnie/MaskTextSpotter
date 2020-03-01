@@ -3,7 +3,7 @@
   // width to the value defined here, but the height will be
   // calculated based on the aspect ratio of the input stream.
 
-  var width = 320; // We will scale the photo width to this
+  var width = 680; // We will scale the photo width to this
   var height = 0; // This will be computed based on the input stream
 
   // |streaming| indicates whether or not we're currently streaming
@@ -97,6 +97,7 @@
 
       var data = canvas.toDataURL("image/png");
       uploadPicture(data);
+
       photo.setAttribute("src", data);
     } else {
       clearphoto();
@@ -121,9 +122,16 @@
       processData: false,
       data: formData
     }).done(function(res) {
-        return res;
+        document.getElementById("words").textContent = res["words"];
+        setResPhoto(res["img"]);
     });
   }
+
+    function setResPhoto(filename) {
+        let url = "/api/download/";
+        photo.setAttribute("src", url + filename);
+    }
+
 
   function base64ToBlob(base64, mime) {
     mime = mime || "";
