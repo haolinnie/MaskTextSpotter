@@ -1,10 +1,15 @@
-from flask import Flask, jsonify, request, render_template
+import base64 
+import os
+
+import cv2
+import string
+import random
+
+from flask import Flask, jsonify, request, render_template, send_file
+import numpy as np
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-import numpy as np
-import cv2
-
-# from api.TextDemo import MTS
+from api.TextDemo import MTS
 
 
 def create_app():
@@ -21,7 +26,7 @@ def create_app():
     app.wsgi_app = ProxyFix(app.wsgi_app)
 
     # Instantiate MaskTextSpotter
-    # MTS()
+    MTS()
 
     @app.route("/")
     def index():
@@ -38,10 +43,35 @@ def create_app():
 
         img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
 
-        import pdb
+        
+        try:
 
-        pdb.set_trace()
+            result_polygons, result_words = MTS.get().run_on_opencv_image(img)
+            MTS.get().visualization(img, result_polygons, result_words)
 
-        return "/api/upload POST request received"
+            filename = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)) + '.png'
+
+
+            path = os.path.join(app.instance_path, filename)
+
+            cv2.imwrite(path, img)
+
+            def generate():
+                with open(path) as f:
+                    yield from f
+                os.remove(path)
+
+
+            import pdb
+            pdb.set_trace()
+
+            return 
+
+        except TypeError:
+            return jsonify("No predictions")
+
+    @app.route("/api/download", methods["GET"])
+    def download():
+
 
     return app

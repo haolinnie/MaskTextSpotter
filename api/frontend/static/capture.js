@@ -120,8 +120,8 @@
       contentType: false,
       processData: false,
       data: formData
-    }).done(function(e) {
-      alert("done!");
+    }).done(function(res) {
+        return res;
     });
   }
 
