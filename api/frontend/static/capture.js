@@ -1,4 +1,4 @@
-(function() {
+//(function() {
   // The width and height of the captured photo. We will set the
   // width to the value defined here, but the height will be
   // calculated based on the aspect ratio of the input stream.
@@ -105,15 +105,31 @@
   }
 
   function uploadPicture(image) {
-    var url = "/api/upload";
     var base64ImageContent = image.replace(
-      /^data:image\/(png|jpg);base64,/,
+      /^data:image\/(png|jpg|jpeg);base64,/,
       ""
     );
     var blob = base64ToBlob(base64ImageContent, "image/png");
     var formData = new FormData();
     formData.append("picture", blob);
+    uploadForm(formData);
+  }
 
+function handleHTMLFileUpload(form){
+    let files = form.picture.files;
+    if (FileReader && files && files.length) {
+        var fr = new FileReader();
+        fr.onload = function () {
+            var base64 = fr.result;
+            debugger
+            uploadPicture(base64);
+        }
+        fr.readAsDataURL(files[0]);
+    }
+}
+
+  function uploadForm(formData) {
+    var url = "/api/upload";
     $.ajax({
       url: url,
       type: "POST",
@@ -162,4 +178,4 @@
   // Set up our event listener to run the startup process
   // once loading is complete.
   window.addEventListener("load", startup, false);
-})();
+//})();

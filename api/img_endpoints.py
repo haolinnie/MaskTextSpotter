@@ -13,6 +13,7 @@ img_blueprint = Blueprint("img_blueprint", __name__)
 
 @img_blueprint.route("/api/upload", methods=["POST"])
 def upload():
+    breakpoint()
     image_blob = request.files.get("picture", "").read()
     npimg = np.fromstring(image_blob, np.uint8)
     img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
