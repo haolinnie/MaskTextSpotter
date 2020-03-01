@@ -35,6 +35,7 @@ class MaskPostProcessor(nn.Module):
         Returns:
             results (list[BoxList]): one BoxList for each image, containing
                 the extra field mask
+                a second BoxList, of the inverted masks
         """
         mask_prob = x.sigmoid()
 
@@ -46,11 +47,22 @@ class MaskPostProcessor(nn.Module):
         mask_prob = mask_prob[index, labels][:, None]
 
         if self.masker:
+            #edited
+            right_side_up_boxes = boxes.transpose(FLIP_TOP_BOTTOM)
+            switched_boxes = boxes.transpose(FLIP_LEFT_RIGHT)
+            full_inv = right_side_up_boxes.transpose(FLIP_LEFT_RIGHT)
             mask_prob = self.masker(mask_prob, boxes)
+            rsu_mask_prob = self.masker(mask_prob, right_side_up_boxes) #added
+            sb_mask_prob = self.masker(mask_prob, switched_boxes) #added
+            fi_mask_prob = self.masker(mask_prob, full_inv) #added
 
         boxes_per_image = [len(box) for box in boxes]
         mask_prob = mask_prob.split(boxes_per_image, dim=0)
+        rsu_mask_prob = rsu_mask_prob.split(boxes_per_image, dim=0) #added
+        sb_mask_prob = sb_mask_prob.split(boxes_per_image, dim=0) #added
+        fi_mask_prob = fi_mask_prob.split(boxes_per_image, dim=0) #added
 
+        ## get ready to add in all rotations
         results = []
         for prob, box in zip(mask_prob, boxes):
             bbox = BoxList(box.bbox, box.size, mode="xyxy")
@@ -58,6 +70,27 @@ class MaskPostProcessor(nn.Module):
                 bbox.add_field(field, box.get_field(field))
             bbox.add_field("mask", prob)
             results.append(bbox)
+        # add below when go
+        # keep an eye on the additional for loops, might be necessary to remove them
+        for prob, box in zip(rsu_mask_prob, right_side_up_boxes):
+            #bbox = BoxList(box.bbox, box.size, mode="xyxy")
+            for field in box.fields():
+                bbox.add_field(field, box.get_field(field))
+            bbox.add_field("mask", prob)
+            results.append(bbox)
+        for prob, box in zip(sb_mask_prob, switched_boxes):
+            #bbox = BoxList(box.bbox, box.size, mode="xyxy")
+            for field in box.fields():
+                bbox.add_field(field, box.get_field(field))
+            bbox.add_field("mask", prob)
+            results.append(bbox)
+        for prob, box in zip(fi_mask_prob, full_inv):
+            #bbox = BoxList(box.bbox, box.size, mode="xyxy")
+            for field in box.fields():
+                bbox.add_field(field, box.get_field(field))
+            bbox.add_field("mask", prob)
+            results.append(bbox)
+        ## end of addition
 
         return results
 # TODO
