@@ -5,14 +5,14 @@ import cv2
 def char2num(char):
 	if char in '0123456789':
 		num = ord(char) - ord('0') + 1
-	elif char in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ':
+	elif char in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZzʎxʍʌnʇsɹbdouɯןʞſıɥbɟǝpɔqɐZ⅄XMΛՈꞱSᴚტԀONW⅂ꓘᒋIH⅁ℲƎᗡƆᗺⱯ':
 		num = ord(char.lower()) - ord('a') + 11
 	else:
 		num = 0
 	return num
 
 def num2char(num):
-	chars = '_0123456789abcdefghijklmnopqrstuvwxyz'
+	chars = '_0123456789abcdefghijklmnopqrstuvwxyzzʎxʍʌnʇsɹbdouɯןʞſıɥbɟǝpɔqɐ'
 	char = chars[num]
 	# if num >=1 and num <=10:
 	# 	char = chr(ord('0') + num - 1)
@@ -39,7 +39,7 @@ def seg2text(gray, mask, seg, box, threshold=192):
 	ratio_h = float(box_h) / img_h
 	ratio_w = float(box_w) / img_w
 	# SE1=cv2.getStructuringElement(cv2.MORPH_RECT,(3,3))
-	# gray = cv2.erode(gray,SE1) 
+	# gray = cv2.erode(gray,SE1)
 	# gray = cv2.dilate(gray,SE1)
 	# gray = cv2.morphologyEx(gray,cv2.MORPH_CLOSE,SE1)
 	ret, thresh = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)
