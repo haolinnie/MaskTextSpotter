@@ -1,7 +1,11 @@
+.contentarea {
+  font-size: 16px;
+  font-family: "Lucida Grande", "Arial", sans-serif;
+  /*width: 1520px;*/
+}
+
 #video {
   border: 1px solid black;
-  width:640;
-  height:480;
 }
 
 #photo {
@@ -16,12 +20,11 @@
 
 .camera {
   width: 680px;
-  display:inline-block;
 }
 
 .output {
   width: 680px;
-  display:inline-block;
+  /*display:inline-block;*/
 }
 
 #startbutton {
@@ -38,8 +41,9 @@
   color: rgba(255, 255, 255, 1.0);
 }
 
-.contentarea {
-  font-size: 16px;
-  font-family: "Lucida Grande", "Arial", sans-serif;
-  width: 1520px;
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }

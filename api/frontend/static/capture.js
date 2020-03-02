@@ -76,7 +76,7 @@
   function clearphoto() {
     var context = canvas.getContext("2d");
     context.fillStyle = "#AAA";
-    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.fillRect(0, 0, video.width, video.height);
 
     var data = canvas.toDataURL("image/png");
     photo.setAttribute("src", data);
