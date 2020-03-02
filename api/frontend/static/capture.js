@@ -59,7 +59,6 @@
     startbutton.addEventListener(
       "click",
       function(ev) {
-        console.log("clicked");
         takepicture();
         ev.preventDefault();
       },
@@ -121,8 +120,12 @@
       processData: false,
       data: formData
     }).done(function(res) {
-      document.getElementById("words").textContent = res["words"];
-      setResPhoto(res["img"]);
+        if (res["status"] == 200) {
+          document.getElementById("words").textContent = res["words"];
+          setResPhoto(res["img"]);
+        } else {
+          document.getElementById("words").textContent = res["error"];
+        }
     });
   }
 

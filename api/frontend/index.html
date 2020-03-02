@@ -33,17 +33,19 @@
 
     <div class="row text-center mx-auto">
         <img class="border border-dark mx-auto" id="photo" alt="The screen capture will appear in this box.">
-        <p id="words"></p>
-
     </div>
 
-      <canvas id="canvas" class="d-none">
-      </canvas>
+    <div class="row text-center mx-auto">
+        <p id="words" class="text-center mx-auto"></p>
+    </div>
 
-      <form action="http://mask.tigernie.com/api/upload" method="post" id="upload-form">
-        <input type="file" name="imagefile" id="imagefile"/>
-        <input type="submit" />
-      </form>
+    <canvas id="canvas" class="d-none">
+    </canvas>
+
+    <form action="http://mask.tigernie.com/api/upload" method="post" id="upload-form">
+      <input type="file" name="imagefile" id="imagefile"/>
+      <input type="submit" />
+    </form>
 
   </div>
 

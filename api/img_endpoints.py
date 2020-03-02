@@ -5,7 +5,7 @@ import random
 
 import cv2
 import numpy as np
-from flask import current_app, request, Blueprint
+from flask import current_app, request, Blueprint, abort
 
 from api.TextDemo import MTS
 
@@ -25,10 +25,10 @@ def upload():
 
         path = os.path.join(current_app.instance_path, filename)
         cv2.imwrite(path, img)
-        res = {"words": result_words, "img": filename}
+        res = {"status": 200, "words": result_words, "img": filename}
         return res
     except TypeError:
-        return {"error": "No predictions"}
+        return {"status": 400, "error": "No predictions"}
 
 @img_blueprint.route("/api/download/<filename>", methods=["GET"])
 def download(filename):
@@ -40,6 +40,9 @@ def download(filename):
             yield from f
         os.remove(path)
 
-    r = current_app.response_class(generate(), mimetype='image/png')
-    r.headers.set('Content-Disposition', 'attachment', filename='result.png')
+    try:
+        r = current_app.response_class(generate(), mimetype='image/png')
+        r.headers.set('Content-Disposition', 'attachment', filename='result.png')
+    except FileNotFoundError:
+        abort(404)
     return r
