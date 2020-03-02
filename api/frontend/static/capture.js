@@ -41,9 +41,6 @@
         if (!streaming) {
           height = video.videoHeight / (video.videoWidth / width);
 
-          // Firefox currently has a bug where the height can't be read from
-          // the video, so we will make assumptions if this happens.
-
           if (isNaN(height)) {
             height = width / (4 / 3);
           }
@@ -52,6 +49,7 @@
           video.setAttribute("height", height);
           canvas.setAttribute("width", width);
           canvas.setAttribute("height", height);
+
           streaming = true;
         }
       },
@@ -122,16 +120,15 @@
       processData: false,
       data: formData
     }).done(function(res) {
-        document.getElementById("words").textContent = res["words"];
-        setResPhoto(res["img"]);
+      document.getElementById("words").textContent = res["words"];
+      setResPhoto(res["img"]);
     });
   }
 
-    function setResPhoto(filename) {
-        let url = "/api/download/";
-        photo.setAttribute("src", url + filename);
-    }
-
+  function setResPhoto(filename) {
+    let url = "/api/download/";
+    photo.setAttribute("src", url + filename);
+  }
 
   function base64ToBlob(base64, mime) {
     mime = mime || "";

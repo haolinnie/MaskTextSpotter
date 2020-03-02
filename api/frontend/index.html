@@ -16,28 +16,38 @@
 	<script src="static/capture.js"></script>
 </head>
 <body>
-<div class="container-fluid contentarea">
-  <h1 class="heading">
-    MaskTextSpotter
-  </h1>
-
-  <div class="camera">
-    <video class="center" id="video">Video stream not available.</video>
-    <button id="startbutton">Take photo</button>
+<div class="container-fluid">
+  <div class="container mt-5">
+      <h1 class="text-center">
+        MaskTextSpotter
+      </h1>
   </div>
 
-  <canvas id="canvas">
-  </canvas>
+  <div class="container">
 
-  <div class="output">
-    <img id="photo" alt="The screen capture will appear in this box.">
-    <p id="words"></p>
+    <div class="row text-center mx-auto">
+        <video class="border border-dark mx-auto" id="video">Video stream not available.</video>
+    </div>
+
+    <div class="row text-center mx-auto">
+        <button type="button " class="btn btn-light mx-auto" id="startbutton">Take photo</button>
+    </div>
+
+    <div class="row text-center mx-auto">
+        <img class="border border-dark mx-auto" id="photo" alt="The screen capture will appear in this box.">
+        <p id="words"></p>
+
+    </div>
+
+      <canvas id="canvas" class="d-none">
+      </canvas>
+
+      <form action="http://mask.tigernie.com/api/upload" method="post" id="upload-form">
+        <input type="file" name="imagefile" id="imagefile"/>
+        <input type="submit" />
+      </form>
+
   </div>
-
-  <form action="http://mask.tigernie.com/api/upload" method="post" id="upload-form">
-    <input type="file" name="imagefile" id="imagefile"/>
-    <input type="submit" />
-  </form>
 
 </div>
 </body>
