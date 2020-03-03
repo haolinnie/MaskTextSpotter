@@ -18,14 +18,16 @@ def upload():
     img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
     
     try:
-        result_polygons, result_words = MTS.get().run_on_opencv_image(img)
+        result_polygons, result_words, result_scores = MTS.get().run_twice_with_flip(img)
         MTS.get().visualization(img, result_polygons, result_words)
 
         filename = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)) + '.png'
 
         path = os.path.join(current_app.instance_path, filename)
         cv2.imwrite(path, img)
-        res = {"status": 200, "words": result_words, "img": filename}
+        res = {"status": 200, "words": result_words,
+                "scores": result_scores,
+                "img": filename}
         return res
     except TypeError:
         return {"status": 400, "error": "No predictions"}

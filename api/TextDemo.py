@@ -12,6 +12,11 @@ from maskrcnn_benchmark.utils.chars import getstr_grid, get_tight_rect
 from PIL import Image
 import numpy as np
 import argparse
+import matplotlib.pyplot as plt
+
+def _imshow(img):
+    plt.imshow(img)
+    plt.show()
 
 class TextDemo(object):
     def __init__(
@@ -73,8 +78,77 @@ class TextDemo(object):
             result_polygons (list): detection results
             result_words (list): recognition results
         """
-        result_polygons, result_words = self.compute_prediction(image)
-        return result_polygons, result_words
+        result_polygons, result_words, result_scores = self.compute_prediction(image)
+        return result_polygons, result_words, result_scores
+
+    def run_twice_with_flip(self, image):
+        """
+        This is a quick hack that passes the image twice to the model,
+        once in the original orientation and once flipped.
+        Then we compare the scores of each text instance and pick
+        the one with the better score.
+
+        -- Tiger, Ryan
+        """
+        dis_thresh = 20   # min euclidean distance for distinct contour centroids
+        score_thresh = 0.85 # min score for text sequence
+
+        max_y, max_x, _ = image.shape  # image dimensions
+
+        image_rot = np.rot90(np.rot90(image))
+
+        res_polygons, res_words, res_scores = self.compute_prediction(image)
+        res_polygons_rot, res_words_rot, res_scores_rot = self.compute_prediction(image_rot)
+
+        # Transform res_polygons_rot to original orientation for visualisation
+        for i in range(len(res_polygons_rot)):
+            res_polygons_rot[i][::2] = max_x - np.array(res_polygons_rot[i][::2])
+            res_polygons_rot[i][1::2] = max_y - np.array(res_polygons_rot[i][1::2])
+
+        # calc centroids of all polygons
+        res_plg_cts = np.array([[np.mean(plg[::2]), np.mean(plg[1::2])] for plg in res_polygons])
+        res_plg_cts_rot = np.array([[np.mean(plg[::2]), np.mean(plg[1::2])] for plg in res_polygons_rot])
+
+        # lookup table of euclidean distance between the original and flipped img centroids
+        edistance_table = np.zeros((len(res_plg_cts), len(res_plg_cts_rot)))
+        for i, v in enumerate(res_plg_cts):
+            for j, vv in enumerate(res_plg_cts_rot):
+                edistance_table[i][j] = np.linalg.norm(v - vv)
+
+        # identify text instances with the best score
+        _min = edistance_table.min(axis=1)
+        _argmin = edistance_table.argmin(axis=1)
+
+        return_polygons, return_words, return_scores = [], [], []
+
+        for i, _m in enumerate(_min):
+            i_rot = _argmin[i]
+            if _m > dis_thresh:
+                # both contours could be real
+                if res_scores[i] > score_thresh:
+                    # Add original instance to results
+                    return_polygons.append(res_polygons[i])
+                    return_words.append(res_words[i])
+                    return_scores.append(res_scores[i])
+                if res_scores_rot[i_rot] > score_thresh:
+                    # Add inverse instance to results
+                    return_polygons.append(res_polygons_rot[i_rot]) ###### Transform res_polygons_rot
+                    return_words.append(res_words_rot[i_rot])
+                    return_scores.append(res_scores_rot[i_rot])
+            else:
+                # The original and inverse contours are the same instance
+                if res_scores[i] > res_scores_rot[i_rot]:
+                    # Add original instance to results
+                    return_polygons.append(res_polygons[i])
+                    return_words.append(res_words[i])
+                    return_scores.append(res_scores[i])
+                else:
+                    # Add inverse instance to results
+                    return_polygons.append(res_polygons_rot[i_rot]) ###### Transform res_polygons_rot
+                    return_words.append(res_words_rot[i_rot])
+                    return_scores.append(res_scores_rot[i_rot])
+
+        return return_polygons, return_words, return_scores
 
     def compute_prediction(self, original_image):
         # apply pre-processing to image
@@ -107,16 +181,17 @@ class TextDemo(object):
 
         result_polygons = []
         result_words = []
+        result_scores = []
         for k, box in enumerate(boxes):
             box = list(map(int, box))
             mask = masks[k,0,:,:]
             polygon = self.mask2polygon(mask, box, original_image.shape, threshold=0.5, output_polygon=self.output_polygon)
             if polygon is None:
                 polygon = [box[0], box[1], box[2], box[1], box[2], box[3], box[0], box[3]]
-            result_polygons.append(polygon)
             score = scores[k]
             if score < self.confidence_threshold:
                 continue
+            result_polygons.append(polygon)
             word = words[k]
             rec_score = rec_scores[k]
             seq_word = seq_words[k]
@@ -124,9 +199,12 @@ class TextDemo(object):
             seq_score = sum(seq_char_scores) / float(len(seq_char_scores))
             if seq_score > rec_score:
                 result_words.append(seq_word)
+                result_scores.append(seq_score)
             else:
                 result_words.append(word)
-        return result_polygons, result_words
+                result_scores.append(rec_score)
+
+        return result_polygons, result_words, result_scores
 
     def process_char_mask(self, char_masks, boxes, threshold=192):
         texts, rec_scores = [], []

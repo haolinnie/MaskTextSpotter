@@ -130,6 +130,7 @@
       data: formData
     }).done(function(res) {
       if (res["status"] == 200) {
+        console.log(res);
         document.getElementById("words").textContent = res["words"];
         setResPhoto(res["img"]);
       } else {
