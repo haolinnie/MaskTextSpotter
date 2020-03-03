@@ -110,13 +110,13 @@ class TextDemo(object):
         for k, box in enumerate(boxes):
             box = list(map(int, box))
             mask = masks[k,0,:,:]
+            score = scores[k]
+            if score < self.confidence_threshold:
+                continue
             polygon = self.mask2polygon(mask, box, original_image.shape, threshold=0.5, output_polygon=self.output_polygon)
             if polygon is None:
                 polygon = [box[0], box[1], box[2], box[1], box[2], box[3], box[0], box[3]]
             result_polygons.append(polygon)
-            score = scores[k]
-            if score < self.confidence_threshold:
-                continue
             word = words[k]
             rec_score = rec_scores[k]
             seq_word = seq_words[k]
