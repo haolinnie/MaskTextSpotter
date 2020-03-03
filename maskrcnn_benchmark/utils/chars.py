@@ -7,7 +7,7 @@ def char2num(char):
 		num = ord(char) - ord('0') + 1
 	elif char in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ':
 		num = ord(char.lower()) - ord('a') + 11
-	elif char in "ɐqɔpǝɟbɥıſʞןɯuodbɹsʇnʌʍxʎzⱯᗺƆᗡƎℲ⅁HIᒋꓘ⅂WNOԀტᴚSꞱՈΛMX⅄Z"
+	elif char in "ɐqɔpǝɟbɥıſʞןɯuodbɹsʇnʌʍxʎzⱯᗺƆᗡƎℲ⅁HIᒋꓘ⅂WNOԀტᴚSꞱՈΛMX⅄Z":
 		num = ord(char.lower()) - ord('ɐ') + 11
 	else:
 		num = 0
