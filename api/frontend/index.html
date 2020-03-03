@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="container-fluid">
-  <div class="container mt-5">
+  <div class="container mt-3">
       <h1 class="text-center">
         Mask TextSpotter
       </h1>
@@ -23,29 +23,39 @@
 
   <div class="container">
 
-    <div class="row text-center mx-auto">
-        <video class="border border-dark mx-auto" id="video">Video stream not available.</video>
+    <div class="container text-center mx-auto">
+        <video class="border border-dark mx-auto" id="video" autoplay playsinline>Video stream not available.</video>
+
     </div>
 
-    <div class="row text-center mx-auto">
-        <button type="button" class="btn btn-light mx-auto" id="startbutton">Take photo</button>
+    <div class="container text-center mx-auto">
+        <div class="container mx-auto my-1">
+            <button type="button" class="btn btn-dark" id="startCamera">Start camera</button>
+            <button type="button" class="btn btn-primary" id="photoButton">Take photo</button>
+
+            <!--<form class="form-inline" id="upload-form">-->
+                <!--<div class="form-group text-center">-->
+                  <!--<label for="imagefile">Upload an image for text spotting</label>-->
+                  <!--<input type="file" class="btn" name="imagefile" id="imagefile"/>-->
+                  <!--<input type="submit" />-->
+                <!--</div>-->
+            <!--</form>-->
+
+        </div>
+
     </div>
 
-    <div class="row text-center mx-auto">
+    <div class="container text-center mx-auto">
         <img class="border border-dark mx-auto" id="photo" alt="The screen capture will appear in this box.">
     </div>
 
-    <div class="row text-center mx-auto">
+    <div class="container text-center mx-auto">
         <p id="words" class="text-center mx-auto"></p>
     </div>
 
     <canvas id="canvas" class="d-none">
     </canvas>
 
-    <form action="http://mask.tigernie.com/api/upload" method="post" id="upload-form">
-      <input type="file" name="imagefile" id="imagefile"/>
-      <input type="submit" />
-    </form>
 
   </div>
 

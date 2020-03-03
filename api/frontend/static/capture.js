@@ -17,55 +17,64 @@
   var video = null;
   var canvas = null;
   var photo = null;
-  var startbutton = null;
+  var photoButton = null;
+  let startCameraBtn = null;
 
-  function startup() {
+  function init() {
     video = document.getElementById("video");
     canvas = document.getElementById("canvas");
     photo = document.getElementById("photo");
-    startbutton = document.getElementById("startbutton");
+    photoButton = document.getElementById("photoButton");
+    startCameraBtn = document.getElementById("startCamera");
 
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: false })
-      .then(function(stream) {
-        video.srcObject = stream;
-        video.play();
-      })
-      .catch(function(err) {
-        console.log("An error occurred: " + err);
-      });
-
-    video.addEventListener(
-      "canplay",
-      function(ev) {
-        if (!streaming) {
-          height = video.videoHeight / (video.videoWidth / width);
-
-          if (isNaN(height)) {
-            height = width / (4 / 3);
-          }
-
-          video.setAttribute("width", width);
-          video.setAttribute("height", height);
-          canvas.setAttribute("width", width);
-          canvas.setAttribute("height", height);
-
-          streaming = true;
-        }
-      },
-      false
-    );
-
-    startbutton.addEventListener(
-      "click",
-      function(ev) {
-        takepicture();
-        ev.preventDefault();
-      },
-      false
-    );
-
+    startCameraBtn.addEventListener("click", startup);
     clearphoto();
+  }
+
+  function startup() {
+    if (!streaming) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: false })
+        .then(function(stream) {
+          video.srcObject = stream;
+          video.play();
+        })
+        .catch(function(err) {
+          console.log("An error occurred: " + err);
+        });
+
+      video.addEventListener(
+        "canplay",
+        function(ev) {
+          if (!streaming) {
+            height = video.videoHeight / (video.videoWidth / width);
+
+            if (isNaN(height)) {
+              height = width / (4 / 3);
+            }
+
+            video.setAttribute("width", width);
+            video.setAttribute("height", height);
+            canvas.setAttribute("width", width);
+            canvas.setAttribute("height", height);
+
+            streaming = true;
+          }
+        },
+        false
+      );
+
+      photoButton.addEventListener(
+        "click",
+        function(ev) {
+          takepicture();
+          ev.preventDefault();
+        },
+        false
+      );
+
+      clearphoto();
+    }
   }
 
   // Fill the photo with an indication that none has been
@@ -120,12 +129,12 @@
       processData: false,
       data: formData
     }).done(function(res) {
-        if (res["status"] == 200) {
-          document.getElementById("words").textContent = res["words"];
-          setResPhoto(res["img"]);
-        } else {
-          document.getElementById("words").textContent = res["error"];
-        }
+      if (res["status"] == 200) {
+        document.getElementById("words").textContent = res["words"];
+        setResPhoto(res["img"]);
+      } else {
+        document.getElementById("words").textContent = res["error"];
+      }
     });
   }
 
@@ -162,5 +171,5 @@
 
   // Set up our event listener to run the startup process
   // once loading is complete.
-  window.addEventListener("load", startup, false);
+  window.addEventListener("load", init, false);
 })();
