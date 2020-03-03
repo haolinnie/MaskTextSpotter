@@ -42,4 +42,4 @@ venv
 # flask instance
 instance
 
-*/.DS_Store/*
+.DS_Store
