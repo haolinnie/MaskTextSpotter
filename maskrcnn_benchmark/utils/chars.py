@@ -5,14 +5,16 @@ import cv2
 def char2num(char):
 	if char in '0123456789':
 		num = ord(char) - ord('0') + 1
-	elif char in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZzʎxʍʌnʇsɹbdouɯןʞſıɥbɟǝpɔqɐZ⅄XMΛՈꞱSᴚტԀONW⅂ꓘᒋIH⅁ℲƎᗡƆᗺⱯ':
+	elif char in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ':
 		num = ord(char.lower()) - ord('a') + 11
+	elif char in "ɐqɔpǝɟbɥıſʞןɯuodbɹsʇnʌʍxʎzⱯᗺƆᗡƎℲ⅁HIᒋꓘ⅂WNOԀტᴚSꞱՈΛMX⅄Z"
+		num = ord(char.lower()) - ord('ɐ') + 11
 	else:
 		num = 0
 	return num
 
 def num2char(num):
-	chars = '_0123456789abcdefghijklmnopqrstuvwxyzzʎxʍʌnʇsɹbdouɯןʞſıɥbɟǝpɔqɐ'
+	chars = '_0123456789abcdefghijklmnopqrstuvwxyzɐqɔpǝɟbɥıſʞןɯuodbɹsʇnʌʍxʎz'
 	char = chars[num]
 	# if num >=1 and num <=10:
 	# 	char = chr(ord('0') + num - 1)
