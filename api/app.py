@@ -1,3 +1,4 @@
+import os
 from flask import Flask, jsonify, request, render_template, send_file
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -14,6 +15,12 @@ def create_app():
         static_folder="api/frontend/static",
         template_folder="api/frontend",
     )
+
+    # ensure the instance folder exists
+    try:
+        os.makedirs(app.instance_path)
+    except OSError:
+        pass
 
     # proxy support
     app.wsgi_app = ProxyFix(app.wsgi_app)

@@ -41,9 +41,6 @@
         if (!streaming) {
           height = video.videoHeight / (video.videoWidth / width);
 
-          // Firefox currently has a bug where the height can't be read from
-          // the video, so we will make assumptions if this happens.
-
           if (isNaN(height)) {
             height = width / (4 / 3);
           }
@@ -52,6 +49,7 @@
           video.setAttribute("height", height);
           canvas.setAttribute("width", width);
           canvas.setAttribute("height", height);
+
           streaming = true;
         }
       },
@@ -76,7 +74,7 @@
   function clearphoto() {
     var context = canvas.getContext("2d");
     context.fillStyle = "#AAA";
-    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.fillRect(0, 0, video.width, video.height);
 
     var data = canvas.toDataURL("image/png");
     photo.setAttribute("src", data);
@@ -122,16 +120,19 @@
       processData: false,
       data: formData
     }).done(function(res) {
-        document.getElementById("words").textContent = res["words"];
-        setResPhoto(res["img"]);
+        if (res["status"] == 200) {
+          document.getElementById("words").textContent = res["words"];
+          setResPhoto(res["img"]);
+        } else {
+          document.getElementById("words").textContent = res["error"];
+        }
     });
   }
 
-    function setResPhoto(filename) {
-        let url = "/api/download/";
-        photo.setAttribute("src", url + filename);
-    }
-
+  function setResPhoto(filename) {
+    let url = "/api/download/";
+    photo.setAttribute("src", url + filename);
+  }
 
   function base64ToBlob(base64, mime) {
     mime = mime || "";

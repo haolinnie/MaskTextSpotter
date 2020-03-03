@@ -1,35 +1,53 @@
 <!doctype html>
 <html>
 <head>
-	<title>Mask TextSpotter</title>
 	<meta charset='utf-8'>
-	<link rel="stylesheet" href="static/main.css" type="text/css" media="all">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<title>Mask TextSpotter</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
 	<script src="static/capture.js"></script>
 </head>
 <body>
-<div class="contentarea">
-  <h1>
-    MaskTextSpotter
-  </h1>
-
-  <div class="camera">
-    <video id="video">Video stream not available.</video>
-    <button id="startbutton">Take photo</button>
+<div class="container-fluid">
+  <div class="container mt-5">
+      <h1 class="text-center">
+        Mask TextSpotter
+      </h1>
   </div>
 
-  <canvas id="canvas">
-  </canvas>
+  <div class="container">
 
-  <div class="output">
-    <img id="photo" alt="The screen capture will appear in this box.">
-    <p id="words"></p>
+    <div class="row text-center mx-auto">
+        <video class="border border-dark mx-auto" id="video">Video stream not available.</video>
+    </div>
+
+    <div class="row text-center mx-auto">
+        <button type="button" class="btn btn-light mx-auto" id="startbutton">Take photo</button>
+    </div>
+
+    <div class="row text-center mx-auto">
+        <img class="border border-dark mx-auto" id="photo" alt="The screen capture will appear in this box.">
+    </div>
+
+    <div class="row text-center mx-auto">
+        <p id="words" class="text-center mx-auto"></p>
+    </div>
+
+    <canvas id="canvas" class="d-none">
+    </canvas>
+
+    <form action="http://mask.tigernie.com/api/upload" method="post" id="upload-form">
+      <input type="file" name="imagefile" id="imagefile"/>
+      <input type="submit" />
+    </form>
+
   </div>
-
-  <form action="http://mask.tigernie.com/api/upload" method="post" id="upload-form">
-    <input type="file" name="imagefile" id="imagefile"/>
-    <input type="submit" />
-  </form>
 
 </div>
 </body>
