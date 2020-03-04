@@ -90,7 +90,7 @@ class TextDemo(object):
 
         -- Tiger, Ryan
         """
-        dis_thresh = 25   # min euclidean distance for distinct contour centroids
+        dis_thresh = 30   # min euclidean distance for distinct contour centroids
         score_thresh = 0.85 # min score for text sequence
 
         max_y, max_x, _ = image.shape  # image dimensions
