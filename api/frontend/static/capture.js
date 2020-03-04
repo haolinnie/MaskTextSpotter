@@ -131,7 +131,10 @@
     }).done(function(res) {
       if (res["status"] == 200) {
         console.log(res);
-        document.getElementById("words").textContent = res["words"];
+        let str = res["words"].map((e, i) => {
+              return e + " (" + String(res["scores"][i].toFixed(2)) + ") "
+          })
+        document.getElementById("words").textContent = str.join('');
         setResPhoto(res["img"]);
       } else {
         document.getElementById("words").textContent = res["error"];
