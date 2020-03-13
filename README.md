@@ -1,3 +1,8 @@
+## Tiger and Ryan Build-Specific Information (Assignment 2)
+1. Download training datasets as detailed in the original documentation below.
+2. Build the docker image using ./docker_scripts/build.sh
+3. Run the docker image as a container using ./docker_scripts/run.sh
+
 # MaskTextSpotter
 This is the code of "Mask TextSpotter: An End-to-End Trainable Neural Network for Spotting Text with Arbitrary Shapes" (TPAMI version).
 It is an extension of the ECCV version while sharing the same title. For more details, please refer to our [TPAMI paper](https://ieeexplore.ieee.org/document/8812908). 
@@ -141,7 +146,3 @@ Please cite the related works in your publications if it helps your research:
       pages={67--83},
       year={2018}
     }
-    
-## Tiger and Ryan Build-Specific Information
-
-Docker Image 
