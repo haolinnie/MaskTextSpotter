@@ -4,17 +4,6 @@ It is an extension of the ECCV version while sharing the same title. For more de
 
 This repo is inherited from [maskrcnn-benchmark](https://github.com/facebookresearch/maskrcnn-benchmark) and follows the same license.
 
-## ToDo List
-
-- [x] Release code
-- [x] Document for Installation
-- [x] Trained models
-- [x] Document for testing
-- [x] Document for training
-- [x] Demo script
-- [x] Evaluation
-- [ ] Release the standalone recognition model
-
 ## Installation
 
 ### Requirements:
@@ -90,7 +79,7 @@ The converted labels of SynthText can be downloaded [here](https://1drv.ms/u/s!A
 The root of the dataset directory should be ```MaskTextSpotter/datasets/```.
 
 ## Testing
-### Prepar dataset
+### Prepare dataset
 An example of the path of test images: ```MaskTextSpotter/datasets/icdar2015/test_iamges```
 
 ### Check the config file (configs/finetune.yaml) for some parameters.
@@ -128,10 +117,6 @@ cd evaluation/icdar2015/e2e/
 python script.py
 ```
 
-### Evaluation for Total-Text dataset (ToDo)
-
-
-
 ## Citing the related works
 
 Please cite the related works in your publications if it helps your research:
@@ -157,4 +142,6 @@ Please cite the related works in your publications if it helps your research:
       year={2018}
     }
     
+## Tiger and Ryan Build-Specific Information
 
+Docker Image 
