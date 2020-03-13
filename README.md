@@ -1,7 +1,16 @@
-## Tiger and Ryan Build-Specific Information (Assignment 2)
+## Tiger and Ryan
+Our project aimed to improve the functionality of the MaskTextSpotter OCR system when reading inverted and atypically oriented text. The goal of implementing these imporvements was to allow MTS to more accurately interpret seals and other circular/inverted text for use in visual aides and AR applications.
+
+During our intial assessment of the code, we recognized that despite MTS's poor performance accurately assigning characters to inverted text, the system still managed to correctly spot text at all orientations. As a result, we determined we would accomplish our goal by implementing a function that would target all text with low confidence scores. As a result, in our system the assignment scores of both up-right and inverted low-confidence bounding-boxes are compared and the assignment with higher confidence is assignemd to the corresponding character instance. To account for crowded or otherwise complicated text, boxes from the inverted and original images were matched according to the centroids of their inversions. 
+
+Our system accepts input images through a user's webcam and outputs a text annotated version of that image.
+
+A descriptive document stating what is the problem your project is targeting, and how your project solves this problem (the model or approach the project is using etc). You should use one subsection to specify the input&output of your model
+
+## Tiger and Ryan Build-Specific Build and Run Information (Assignment 2)
 1. Download training datasets as detailed in the original documentation below.
-2. Build the docker image using ./docker_scripts/build.sh
-3. Run the docker image as a container using ./docker_scripts/run.sh
+2. Build the docker image using `./docker_scripts/build.sh`
+3. Run the docker image as a container using `./docker_scripts/run.sh`
 
 # MaskTextSpotter
 This is the code of "Mask TextSpotter: An End-to-End Trainable Neural Network for Spotting Text with Arbitrary Shapes" (TPAMI version).
