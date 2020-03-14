@@ -1,4 +1,4 @@
-## Tiger and Ryan
+# Tiger and Ryan CS396
 Our project aimed to improve the functionality of the MaskTextSpotter OCR system when reading inverted and atypically oriented text. The goal of implementing these imporvements was to allow MTS to more accurately interpret seals and other circular/inverted text for use in visual aides and AR applications.
 
 During our intial assessment of the code, we recognized that despite MTS's poor performance accurately assigning characters to inverted text, the system still managed to correctly spot text at all orientations. As a result, we determined we would accomplish our goal by implementing a function that would target all text with low confidence scores. As a result, in our system the assignment scores of both up-right and inverted low-confidence bounding-boxes are compared and the assignment with higher confidence is assignemd to the corresponding character instance. To account for crowded or otherwise complicated text, boxes from the inverted and original images were matched according to the centroids of their inversions. 
