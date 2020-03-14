@@ -8,6 +8,18 @@ Our system accepts input images through a user's webcam and outputs a text annot
 A descriptive document stating what is the problem your project is targeting, and how your project solves this problem (the model or approach the project is using etc). You should use one subsection to specify the input&output of your model
 
 ## Tiger and Ryan Build-Specific Build and Run Information (Assignment 2)
+
+Pull prebuilt docker image from docker hub:
+```
+docker pull tigernie/cs396:latest
+```
+
+Forward port 5000 from the running container with a Nvidia runtime:
+```
+docker run --rm -d --runtime=nvidia -p 5000:5000 --name mts tigernie/cs396:latest
+```
+
+To build the docker image from scratch:
 1. Download training datasets as detailed in the original documentation below.
 2. Build the docker image using `./docker_scripts/build.sh`
 3. Run the docker image as a container using `./docker_scripts/run.sh`
